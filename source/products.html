@@ -1,0 +1,29 @@
+{% paginate products from products.current by theme.products_per_page %}
+
+{% if products != blank %}
+<div>
+  {% for product in products %}
+  <div class="{{ product.css_class }}">
+    <a href="{{ product.url }}">
+      {% for image in product.images %}
+          <img alt="Image of {{ product.name | escape }}" src="{{ image }}">
+        {{ product | clean }}
+      {% endfor %}
+      <b>{{ product.name }}</b>
+      <p>{{ product.default_price | money_with_sign }}</p>
+      <p>{{ product.description }}</p>
+      {% if product.on_sale %}
+      <em>On Sale</em>
+      {% endif %}
+    </a>
+  </div>
+  {% endfor %}
+</div>
+
+{{ paginate | default_pagination }}
+
+{% else %}
+<p>No products found.</p>
+{% endif %}
+
+{% endpaginate %}

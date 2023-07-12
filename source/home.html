@@ -1,0 +1,38 @@
+{% paginate products from products.current by theme.products_per_page %}
+
+  {% if products != blank %}      
+      {% for product in products %}
+      <div class="{{ product.css_class }}">
+          <div id = "masonry">
+          {% for image in product.images %}
+            <div>
+                <img alt="Image of {{ product.name | escape }}" src="{{ image | product_image_url }}">
+            </div>
+          {% endfor %}
+          </div>
+        <div class = "details">
+        <a href="{{ product.url }}">
+          <p>{{ product.name }}</p>
+          <p>{{ product.default_price | money_with_sign }}</p>
+          <p class = "description">
+            <script>
+                document.write(
+                    md.render(`{{ product.description }}`)
+                );
+            </script>
+          </p>
+          {% if product.on_sale %}
+            <em>On Sale</em>
+          {% endif %}
+        </a>
+        </div>
+      </div>
+      {% endfor %}
+
+    {{ paginate | default_pagination }}
+
+  {% else %}
+    <p>No products found.</p>
+  {% endif %}
+
+{% endpaginate %}
