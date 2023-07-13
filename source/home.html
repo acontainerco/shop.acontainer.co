@@ -12,8 +12,11 @@
           </div>
         <div class = "details">
         <a href="{{ product.url }}">
-          <p>{{ product.name }}</p>
+          <h2>{{ product.name }}</h2>
           <p>{{ product.default_price | money_with_sign }}</p>
+          {% if product.on_sale %}
+            <em>On Sale</em>
+          {% endif %}
           <p class = "description">
             <script>
                 document.write(
@@ -21,16 +24,11 @@
                 );
             </script>
           </p>
-          {% if product.on_sale %}
-            <em>On Sale</em>
-          {% endif %}
         </a>
         </div>
       </div>
       {% endfor %}
-
-    {{ paginate | default_pagination }}
-
+      {{ paginate | default_pagination }}
   {% else %}
     <p>No products found.</p>
   {% endif %}
